@@ -4,6 +4,7 @@ from django.views.generic.list import ListView
 from .models import Artwork
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views import View
+import base64
 
 # Create your views here.
 class Home(ListView):
@@ -14,7 +15,13 @@ class CreateArtwork(View):
     def post(self, request):
         title = request.POST.get('title')
         description = request.POST.get('description')
-        print(request.POST.get('photo'))
+        artwork = Artwork()
+        artwork.title = title
+        artwork.description = description
+        artwork.image = request.FILES['photo']
+
+        artwork.save()
+
         return redirect('artwork:list')
 
 class UpdateArtwork(UpdateView):

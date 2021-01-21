@@ -19,7 +19,7 @@ active
     {% for artwork in object_list %}
         <div class="col" style="width: 10px;">
             <div class="card" style="width: 100%;">
-                <img src="https://www.dinomites.de/wp-content/uploads/2018/12/Robert-Reimann.jpg" alt="..." class="img-fluid" />
+                <img src="{{ artwork.image.url }}" alt="..." class="img-fluid" />
                 <div class="card-body">
                     <h5 class="card-title">{{artwork.title}}</h5>
                     <p class="card-text">{{artwork.description}}</p>
@@ -46,7 +46,7 @@ active
             </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{% url 'artwork:create' %}">
+                <form method="POST" action="{% url 'artwork:create' %}" enctype='multipart/form-data'>
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="title" class="col-form-label">Titel</label>
