@@ -29,12 +29,19 @@
                     {% endif %}
                 </ul>
                 <ul class="navbar-nav my-2 my-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Registerieren</a>
-                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user:logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link {% block login_select %}{% endblock %}" href="{% url 'user:login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% block register_select %}{% endblock %}" href="{% url 'user:register' %}">Registerieren</a>
+                        </li>
+                    {% endif %}
+                    
                 </ul>
             </div>
         </div>
