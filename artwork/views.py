@@ -39,14 +39,6 @@ class DeleteArtwork(LoginRequiredMixin, DeleteView):
 class Download(View):
     def get(self, request, pk):
 
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-
-        print(ip)
 
         artwork = get_object_or_404(Artwork, pk=pk)
         artwork.downloads += 1
@@ -63,8 +55,19 @@ class Download(View):
 
 class MyGallery(LoginRequiredMixin, View):
     def get(self, request):
+
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+
+        
+
         context = {
-            'artworks' : Artwork.objects.filter(creator=request.user)
+            'artworks' : Artwork.objects.filter(creator=request.user),
+            'ip': ip
         }
         return render(request, 'artwork/myGallery.html', context)
 
